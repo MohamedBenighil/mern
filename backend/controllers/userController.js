@@ -50,7 +50,32 @@ const registerUser= asycnHandler(async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 const loginUser= asycnHandler(async (req, res) => {
-    res.status(200).json({message: 'User login'})
+    const {email, password} = req.body
+
+    if (!email || !password){
+        res.status(400)
+        throw new Error('Please add all fields')
+    }
+
+    const userExists = await User.findOne({email})
+    
+    if(!userExists){
+        res.status(400)
+        throw new Error('The user does not exists')
+    }
+
+    if ( await bcrypt.compare(password, userExists.password) ){
+        res.status(200).json({
+            _id: userExists.id,
+            name: userExists.name,
+            email: userExists.email
+        })
+    } else {
+        res.status(400)
+        throw new Error('Invalid password!')
+    }
+
+    //res.status(200).json({message: 'User login'})
 })
 
 // @desc    Get user data
