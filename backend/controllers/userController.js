@@ -84,7 +84,14 @@ const loginUser= asycnHandler(async (req, res) => {
 // @route   GET /api/users/me
 // @access  Private
 const getMe= asycnHandler( async (req, res) => {
-    res.status(200).json({message: 'User data'})
+    const {_id, name, email} =  await User.findById(req.user)
+
+    res.status(200).json({
+        id: _id,
+        name,
+        email
+    })
+    //res.status(200).json({message: 'User data'})
 })
 
 
