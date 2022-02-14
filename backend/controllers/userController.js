@@ -37,7 +37,7 @@ const registerUser= asycnHandler(async (req, res) => {
             _id: user.id,
             name: user.name,
             email: user.email,
-            token: generateToken(userExists.id)
+            token: generateToken(user._id)
         })
     } else {
         res.status(400)
