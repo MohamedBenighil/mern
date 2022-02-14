@@ -5,7 +5,7 @@ const Goal = require('../models/goalModels')
 // @route   GET /api/goals
 // @access  Private
 const getGoals = asyncHandler(async (req,res) => {
-    const goals = await Goal.find() // later we filter by users
+    const goals = await Goal.find({user: req.user.id}) // we filter by users
     res.status(200).json(goals)
 })
 
